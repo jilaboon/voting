@@ -15,13 +15,23 @@ body {
    ====================================== */
 
 .party-bg {
-  background: #0a0a0a;
   min-height: 100vh;
   position: relative;
   overflow: hidden;
+  animation: bgSwap 6s ease-in-out infinite;
 }
 
-/* Animated color-cycling gradient base */
+@keyframes bgSwap {
+  0% { background: #0a0015; }
+  16% { background: #150005; }
+  33% { background: #001510; }
+  50% { background: #000a15; }
+  66% { background: #15000a; }
+  83% { background: #0a1500; }
+  100% { background: #0a0015; }
+}
+
+/* Rotating rainbow wash */
 .party-bg::before {
   content: "";
   position: absolute;
@@ -32,131 +42,91 @@ body {
     from 0deg,
     #ff006e, #8338ec, #3a86ff, #06d6a0, #ffbe0b, #fb5607, #ff006e
   );
-  animation: rotateGradient 8s linear infinite;
-  opacity: 0.12;
-  filter: blur(80px);
+  animation: rotateGradient 5s linear infinite;
+  opacity: 0.15;
+  filter: blur(60px);
 }
 
 @keyframes rotateGradient {
   to { transform: rotate(360deg); }
 }
 
-/* ---- BLOBS: large color-shifting shapes ---- */
-.party-bg .blob {
+/* ---- FLYTHROUGH SHAPES ----
+   These travel fully across the screen edge to edge */
+
+.party-bg .fly {
   position: absolute;
-  border-radius: 50%;
   pointer-events: none;
   mix-blend-mode: screen;
-  filter: blur(2px);
 }
 
-/* Huge blobs - background atmosphere */
-.party-bg .blob-huge-1 {
-  width: 220px; height: 220px;
-  top: -5%; left: -10%;
-  background: radial-gradient(circle, #ff006e, transparent 70%);
-  animation: driftSlow 12s ease-in-out infinite, colorShift1 6s ease-in-out infinite;
-}
-.party-bg .blob-huge-2 {
-  width: 280px; height: 280px;
-  bottom: -10%; right: -15%;
-  background: radial-gradient(circle, #3a86ff, transparent 70%);
-  animation: driftSlow 15s ease-in-out 2s infinite reverse, colorShift2 8s ease-in-out infinite;
-}
-.party-bg .blob-huge-3 {
-  width: 200px; height: 200px;
-  top: 40%; left: 50%;
-  background: radial-gradient(circle, #06d6a0, transparent 70%);
-  animation: driftSlow 18s ease-in-out 4s infinite, colorShift3 7s ease-in-out infinite;
-}
+/* Left to right */
+.party-bg .fly-lr-1 { width: 80px; height: 80px; border-radius: 50%; background: #ff006e; top: 8%; animation: flyLR 7s linear infinite, colorShift1 3s ease-in-out infinite; opacity: 0.7; }
+.party-bg .fly-lr-2 { width: 40px; height: 40px; border-radius: 50%; background: #3a86ff; top: 35%; animation: flyLR 5s linear 1s infinite, colorShift2 2s ease-in-out infinite; opacity: 0.8; }
+.party-bg .fly-lr-3 { width: 60px; height: 60px; border-radius: 50%; background: #06d6a0; top: 62%; animation: flyLR 9s linear 3s infinite, colorShift3 4s ease-in-out infinite; opacity: 0.65; }
+.party-bg .fly-lr-4 { width: 25px; height: 25px; border-radius: 50%; background: #ffbe0b; top: 85%; animation: flyLR 4s linear 0.5s infinite; opacity: 0.9; }
+.party-bg .fly-lr-5 { width: 100px; height: 100px; border-radius: 50%; background: #8338ec; top: 20%; animation: flyLR 12s linear 2s infinite, colorShift1 5s ease-in-out infinite; opacity: 0.45; filter: blur(3px); }
 
-/* Large blobs */
-.party-bg .blob-lg-1 {
-  width: 120px; height: 120px;
-  top: 10%; right: 20%;
-  background: #ffbe0b;
-  animation: floatCrazy 5s ease-in-out infinite, pulse 3s ease-in-out infinite, colorShift1 4s ease-in-out infinite;
-  opacity: 0.7;
-}
-.party-bg .blob-lg-2 {
-  width: 100px; height: 100px;
-  top: 60%; left: 5%;
-  background: #fb5607;
-  animation: floatCrazy 7s ease-in-out 1s infinite reverse, pulse 2.5s ease-in-out infinite, colorShift2 5s ease-in-out infinite;
-  opacity: 0.6;
-}
-.party-bg .blob-lg-3 {
-  width: 90px; height: 90px;
-  bottom: 20%; right: 10%;
-  background: #8338ec;
-  animation: floatCrazy 6s ease-in-out 3s infinite, pulse 4s ease-in-out infinite, colorShift3 6s ease-in-out infinite;
-  opacity: 0.65;
-}
-.party-bg .blob-lg-4 {
-  width: 140px; height: 140px;
-  top: 25%; left: 30%;
-  background: #ff006e;
-  animation: floatCrazy 8s ease-in-out 2s infinite, pulse 3.5s ease-in-out infinite;
-  opacity: 0.5;
-}
+/* Right to left */
+.party-bg .fly-rl-1 { width: 50px; height: 50px; border-radius: 50%; background: #fb5607; top: 15%; animation: flyRL 6s linear infinite, colorShift2 3s ease-in-out infinite; opacity: 0.75; }
+.party-bg .fly-rl-2 { width: 90px; height: 90px; border-radius: 50%; background: #ffbe0b; top: 48%; animation: flyRL 8s linear 2s infinite, colorShift3 4s ease-in-out infinite; opacity: 0.55; }
+.party-bg .fly-rl-3 { width: 30px; height: 30px; border-radius: 50%; background: #ff006e; top: 72%; animation: flyRL 4.5s linear 1s infinite, colorShift1 2s ease-in-out infinite; opacity: 0.85; }
+.party-bg .fly-rl-4 { width: 70px; height: 70px; border-radius: 50%; background: #3a86ff; top: 90%; animation: flyRL 10s linear 4s infinite; opacity: 0.5; filter: blur(2px); }
 
-/* Medium blobs */
-.party-bg .blob-md-1 {
-  width: 60px; height: 60px;
-  top: 15%; left: 70%;
-  background: #06d6a0;
-  animation: floatFast 4s ease-in-out infinite, colorShift1 3s ease-in-out infinite;
-  opacity: 0.8;
+/* Top to bottom */
+.party-bg .fly-tb-1 { width: 45px; height: 45px; border-radius: 50%; background: #06d6a0; left: 15%; animation: flyTB 6s linear infinite, colorShift2 3s ease-in-out infinite; opacity: 0.7; }
+.party-bg .fly-tb-2 { width: 65px; height: 65px; border-radius: 50%; background: #8338ec; left: 55%; animation: flyTB 8s linear 1.5s infinite, colorShift1 4s ease-in-out infinite; opacity: 0.6; }
+.party-bg .fly-tb-3 { width: 35px; height: 35px; border-radius: 50%; background: #fb5607; left: 80%; animation: flyTB 5s linear 3s infinite; opacity: 0.8; }
+
+/* Bottom to top */
+.party-bg .fly-bt-1 { width: 55px; height: 55px; border-radius: 50%; background: #ff006e; left: 30%; animation: flyBT 7s linear 0.5s infinite, colorShift3 3s ease-in-out infinite; opacity: 0.65; }
+.party-bg .fly-bt-2 { width: 40px; height: 40px; border-radius: 50%; background: #ffbe0b; left: 70%; animation: flyBT 5.5s linear 2s infinite; opacity: 0.75; }
+
+/* Diagonal flythroughs */
+.party-bg .fly-diag-1 { width: 50px; height: 50px; border-radius: 50%; background: #3a86ff; animation: flyDiag1 6s linear infinite, colorShift1 2.5s ease-in-out infinite; opacity: 0.7; }
+.party-bg .fly-diag-2 { width: 35px; height: 35px; border-radius: 50%; background: #06d6a0; animation: flyDiag2 8s linear 1s infinite, colorShift2 3s ease-in-out infinite; opacity: 0.8; }
+.party-bg .fly-diag-3 { width: 70px; height: 70px; border-radius: 50%; background: #fb5607; animation: flyDiag3 7s linear 3s infinite, colorShift3 4s ease-in-out infinite; opacity: 0.5; filter: blur(2px); }
+.party-bg .fly-diag-4 { width: 25px; height: 25px; border-radius: 50%; background: #8338ec; animation: flyDiag4 5s linear 0.5s infinite; opacity: 0.85; }
+
+/* ---- Flying geometric shapes ---- */
+.party-bg .fly-sq-1 {
+  width: 35px; height: 35px; border-radius: 5px; background: #ffbe0b;
+  animation: flyLR 8s linear 1s infinite, spinFast 3s linear infinite, colorShift1 4s ease-in-out infinite;
+  top: 25%; opacity: 0.7;
 }
-.party-bg .blob-md-2 {
-  width: 50px; height: 50px;
-  top: 50%; right: 35%;
-  background: #3a86ff;
-  animation: floatFast 3.5s ease-in-out 0.5s infinite reverse, colorShift2 4s ease-in-out infinite;
+.party-bg .fly-sq-2 {
+  width: 20px; height: 20px; border-radius: 3px; background: #ff006e;
+  animation: flyRL 6s linear 2.5s infinite, spinFast 2s linear infinite reverse, colorShift2 3s ease-in-out infinite;
+  top: 55%; opacity: 0.8;
+}
+.party-bg .fly-dm-1 {
+  width: 28px; height: 28px; background: #3a86ff;
+  animation: flyDiag1 7s linear 1.5s infinite, spinFast 4s linear infinite, colorShift3 3s ease-in-out infinite;
   opacity: 0.75;
 }
-.party-bg .blob-md-3 {
-  width: 45px; height: 45px;
-  bottom: 30%; left: 25%;
-  background: #ffbe0b;
-  animation: floatFast 5s ease-in-out 1.5s infinite, colorShift3 3.5s ease-in-out infinite;
-  opacity: 0.7;
-}
-.party-bg .blob-md-4 {
-  width: 55px; height: 55px;
-  top: 75%; left: 60%;
-  background: #ff006e;
-  animation: floatFast 4.5s ease-in-out 2.5s infinite reverse;
+.party-bg .fly-dm-2 {
+  width: 22px; height: 22px; background: #06d6a0;
+  animation: flyDiag2 5.5s linear 0.8s infinite, spinFast 2.5s linear infinite reverse;
   opacity: 0.8;
 }
-.party-bg .blob-md-5 {
-  width: 40px; height: 40px;
-  top: 35%; right: 5%;
-  background: #fb5607;
-  animation: floatFast 3s ease-in-out 0.8s infinite, colorShift1 2.5s ease-in-out infinite;
-  opacity: 0.85;
+.party-bg .fly-tri-1 {
+  width: 0; height: 0;
+  border-left: 18px solid transparent;
+  border-right: 18px solid transparent;
+  border-bottom: 30px solid #fb5607;
+  animation: flyTB 6s linear 2s infinite, spinFast 5s linear infinite, colorShift1 3s ease-in-out infinite;
+  left: 40%; opacity: 0.65;
+}
+.party-bg .fly-tri-2 {
+  width: 0; height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 22px solid #8338ec;
+  animation: flyBT 5s linear 1s infinite, spinFast 3s linear infinite reverse, colorShift2 2.5s ease-in-out infinite;
+  left: 60%; opacity: 0.7;
 }
 
-/* Small balls - fast and scattered */
-.party-bg .ball {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  mix-blend-mode: screen;
-}
-
-.party-bg .ball-1 { width: 20px; height: 20px; top: 8%; left: 45%; background: #ff006e; animation: floatFast 2.5s ease-in-out infinite, colorShift1 2s ease-in-out infinite; opacity: 0.9; }
-.party-bg .ball-2 { width: 16px; height: 16px; top: 22%; right: 8%; background: #3a86ff; animation: floatFast 3s ease-in-out 0.3s infinite reverse; opacity: 0.85; }
-.party-bg .ball-3 { width: 24px; height: 24px; top: 45%; left: 12%; background: #ffbe0b; animation: floatFast 2s ease-in-out 0.7s infinite, colorShift2 1.8s ease-in-out infinite; opacity: 0.9; }
-.party-bg .ball-4 { width: 14px; height: 14px; top: 68%; right: 45%; background: #06d6a0; animation: floatFast 2.8s ease-in-out 1.2s infinite; opacity: 0.8; }
-.party-bg .ball-5 { width: 18px; height: 18px; bottom: 12%; left: 35%; background: #8338ec; animation: floatFast 3.2s ease-in-out 0.5s infinite reverse, colorShift3 2.2s ease-in-out infinite; opacity: 0.85; }
-.party-bg .ball-6 { width: 22px; height: 22px; top: 32%; left: 85%; background: #fb5607; animation: floatFast 2.2s ease-in-out 1.8s infinite; opacity: 0.9; }
-.party-bg .ball-7 { width: 12px; height: 12px; top: 85%; left: 80%; background: #ff006e; animation: floatFast 2.6s ease-in-out 0.9s infinite reverse; opacity: 0.8; }
-.party-bg .ball-8 { width: 28px; height: 28px; top: 55%; left: 55%; background: #3a86ff; animation: floatFast 3.5s ease-in-out 2s infinite, colorShift1 3s ease-in-out infinite; opacity: 0.7; }
-.party-bg .ball-9 { width: 15px; height: 15px; top: 5%; right: 30%; background: #06d6a0; animation: floatFast 2.4s ease-in-out 1.4s infinite; opacity: 0.9; }
-.party-bg .ball-10 { width: 19px; height: 19px; bottom: 25%; right: 20%; background: #ffbe0b; animation: floatFast 2.9s ease-in-out 0.2s infinite reverse, colorShift2 2.5s ease-in-out infinite; opacity: 0.85; }
-
-/* Tiny dots - sparkle dust */
+/* ---- Sparkle dust ---- */
 .party-bg .dot {
   position: absolute;
   border-radius: 50%;
@@ -164,130 +134,83 @@ body {
   background: white;
 }
 
-.party-bg .dot-1 { width: 4px; height: 4px; top: 12%; left: 22%; animation: sparkle 1.5s ease-in-out infinite; }
-.party-bg .dot-2 { width: 3px; height: 3px; top: 28%; right: 18%; animation: sparkle 2s ease-in-out 0.3s infinite; }
-.party-bg .dot-3 { width: 5px; height: 5px; top: 42%; left: 8%; animation: sparkle 1.8s ease-in-out 0.7s infinite; }
-.party-bg .dot-4 { width: 3px; height: 3px; top: 58%; right: 42%; animation: sparkle 2.2s ease-in-out 1s infinite; }
-.party-bg .dot-5 { width: 4px; height: 4px; top: 72%; left: 55%; animation: sparkle 1.6s ease-in-out 0.5s infinite; }
-.party-bg .dot-6 { width: 3px; height: 3px; top: 88%; right: 12%; animation: sparkle 1.9s ease-in-out 1.3s infinite; }
-.party-bg .dot-7 { width: 5px; height: 5px; top: 18%; left: 65%; animation: sparkle 2.1s ease-in-out 0.9s infinite; }
-.party-bg .dot-8 { width: 4px; height: 4px; top: 48%; right: 8%; animation: sparkle 1.7s ease-in-out 1.6s infinite; }
-.party-bg .dot-9 { width: 3px; height: 3px; bottom: 15%; left: 42%; animation: sparkle 2.3s ease-in-out 0.4s infinite; }
-.party-bg .dot-10 { width: 5px; height: 5px; top: 65%; left: 18%; animation: sparkle 1.4s ease-in-out 1.1s infinite; }
-.party-bg .dot-11 { width: 3px; height: 3px; top: 35%; left: 48%; animation: sparkle 2.5s ease-in-out 0.6s infinite; }
-.party-bg .dot-12 { width: 4px; height: 4px; top: 80%; right: 55%; animation: sparkle 1.3s ease-in-out 1.8s infinite; }
-
-/* Squares and diamonds - geometric shapes */
-.party-bg .shape {
-  position: absolute;
-  pointer-events: none;
-  mix-blend-mode: screen;
-}
-
-.party-bg .shape-sq-1 {
-  width: 30px; height: 30px;
-  top: 20%; left: 5%;
-  background: #ff006e;
-  border-radius: 4px;
-  animation: floatCrazy 6s ease-in-out infinite, spinSlow 8s linear infinite, colorShift1 3s ease-in-out infinite;
-  opacity: 0.6;
-}
-.party-bg .shape-sq-2 {
-  width: 22px; height: 22px;
-  top: 70%; right: 15%;
-  background: #3a86ff;
-  border-radius: 3px;
-  animation: floatCrazy 5s ease-in-out 1s infinite reverse, spinSlow 6s linear infinite reverse, colorShift2 4s ease-in-out infinite;
-  opacity: 0.7;
-}
-.party-bg .shape-dm-1 {
-  width: 25px; height: 25px;
-  top: 40%; right: 25%;
-  background: #ffbe0b;
-  transform: rotate(45deg);
-  animation: floatFast 4s ease-in-out 0.5s infinite, colorShift3 3s ease-in-out infinite;
-  opacity: 0.7;
-}
-.party-bg .shape-dm-2 {
-  width: 18px; height: 18px;
-  bottom: 35%; left: 45%;
-  background: #06d6a0;
-  transform: rotate(45deg);
-  animation: floatFast 3.5s ease-in-out 1.5s infinite reverse, colorShift1 2.5s ease-in-out infinite;
-  opacity: 0.75;
-}
-.party-bg .shape-tri-1 {
-  width: 0; height: 0;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-bottom: 26px solid #fb5607;
-  top: 30%; left: 75%;
-  animation: floatCrazy 5.5s ease-in-out 2s infinite, spinSlow 10s linear infinite;
-  opacity: 0.6;
-}
-.party-bg .shape-tri-2 {
-  width: 0; height: 0;
-  border-left: 12px solid transparent;
-  border-right: 12px solid transparent;
-  border-bottom: 20px solid #8338ec;
-  bottom: 15%; left: 15%;
-  animation: floatCrazy 4.5s ease-in-out 0.8s infinite reverse, spinSlow 7s linear infinite reverse;
-  opacity: 0.65;
-}
+.party-bg .dot-1 { width: 4px; height: 4px; top: 12%; left: 22%; animation: sparkle 1.2s ease-in-out infinite; }
+.party-bg .dot-2 { width: 3px; height: 3px; top: 28%; right: 18%; animation: sparkle 1.8s ease-in-out 0.3s infinite; }
+.party-bg .dot-3 { width: 5px; height: 5px; top: 42%; left: 8%; animation: sparkle 1.5s ease-in-out 0.7s infinite; }
+.party-bg .dot-4 { width: 3px; height: 3px; top: 58%; right: 42%; animation: sparkle 2s ease-in-out 1s infinite; }
+.party-bg .dot-5 { width: 4px; height: 4px; top: 72%; left: 55%; animation: sparkle 1.3s ease-in-out 0.5s infinite; }
+.party-bg .dot-6 { width: 3px; height: 3px; top: 88%; right: 12%; animation: sparkle 1.7s ease-in-out 1.3s infinite; }
+.party-bg .dot-7 { width: 5px; height: 5px; top: 18%; left: 65%; animation: sparkle 1.9s ease-in-out 0.9s infinite; }
+.party-bg .dot-8 { width: 4px; height: 4px; top: 48%; right: 8%; animation: sparkle 1.4s ease-in-out 1.6s infinite; }
+.party-bg .dot-9 { width: 3px; height: 3px; bottom: 15%; left: 42%; animation: sparkle 2.1s ease-in-out 0.4s infinite; }
+.party-bg .dot-10 { width: 5px; height: 5px; top: 65%; left: 18%; animation: sparkle 1.1s ease-in-out 1.1s infinite; }
 
 /* ---- KEYFRAMES ---- */
 
-@keyframes floatCrazy {
-  0% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(40px, -60px) scale(1.15); }
-  50% { transform: translate(-30px, -30px) scale(0.9); }
-  75% { transform: translate(20px, 40px) scale(1.1); }
-  100% { transform: translate(0, 0) scale(1); }
+@keyframes flyLR {
+  0% { left: -15%; }
+  100% { left: 115%; }
 }
 
-@keyframes floatFast {
-  0% { transform: translate(0, 0); }
-  33% { transform: translate(25px, -40px); }
-  66% { transform: translate(-20px, 20px); }
-  100% { transform: translate(0, 0); }
+@keyframes flyRL {
+  0% { right: -15%; }
+  100% { right: 115%; }
 }
 
-@keyframes driftSlow {
-  0% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(60px, -40px) scale(1.1); }
-  66% { transform: translate(-40px, 30px) scale(0.95); }
-  100% { transform: translate(0, 0) scale(1); }
+@keyframes flyTB {
+  0% { top: -15%; }
+  100% { top: 115%; }
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.8; }
+@keyframes flyBT {
+  0% { bottom: -15%; }
+  100% { bottom: 115%; }
+}
+
+@keyframes flyDiag1 {
+  0% { top: -10%; left: -10%; }
+  100% { top: 110%; left: 110%; }
+}
+
+@keyframes flyDiag2 {
+  0% { top: -10%; right: -10%; }
+  100% { top: 110%; right: 110%; }
+}
+
+@keyframes flyDiag3 {
+  0% { bottom: -10%; left: -10%; }
+  100% { bottom: 110%; left: 110%; }
+}
+
+@keyframes flyDiag4 {
+  0% { bottom: -10%; right: -10%; }
+  100% { bottom: 110%; right: 110%; }
+}
+
+@keyframes spinFast {
+  to { transform: rotate(360deg); }
 }
 
 @keyframes sparkle {
   0%, 100% { opacity: 0; transform: scale(0.5); }
-  50% { opacity: 1; transform: scale(1.8); }
-}
-
-@keyframes spinSlow {
-  to { transform: rotate(360deg); }
+  50% { opacity: 1; transform: scale(2); }
 }
 
 @keyframes colorShift1 {
   0% { filter: hue-rotate(0deg) brightness(1); }
-  50% { filter: hue-rotate(90deg) brightness(1.3); }
+  50% { filter: hue-rotate(120deg) brightness(1.4); }
   100% { filter: hue-rotate(0deg) brightness(1); }
 }
 
 @keyframes colorShift2 {
   0% { filter: hue-rotate(0deg) brightness(1); }
-  50% { filter: hue-rotate(-120deg) brightness(1.2); }
+  50% { filter: hue-rotate(-150deg) brightness(1.3); }
   100% { filter: hue-rotate(0deg) brightness(1); }
 }
 
 @keyframes colorShift3 {
-  0% { filter: hue-rotate(0deg) brightness(1); }
-  33% { filter: hue-rotate(60deg) brightness(1.4); }
-  66% { filter: hue-rotate(-60deg) brightness(1.1); }
-  100% { filter: hue-rotate(0deg) brightness(1); }
+  0% { filter: hue-rotate(0deg); }
+  33% { filter: hue-rotate(90deg) brightness(1.5); }
+  66% { filter: hue-rotate(-90deg) brightness(1.2); }
+  100% { filter: hue-rotate(0deg); }
 }

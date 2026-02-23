@@ -1,37 +1,43 @@
 export default function PartyBackground({ children }: { children: React.ReactNode }) {
   return (
     <div className="party-bg">
-      {/* Huge atmospheric blobs */}
-      <div className="blob blob-huge-1" />
-      <div className="blob blob-huge-2" />
-      <div className="blob blob-huge-3" />
+      {/* Flying balls - left to right */}
+      <div className="fly fly-lr-1" />
+      <div className="fly fly-lr-2" />
+      <div className="fly fly-lr-3" />
+      <div className="fly fly-lr-4" />
+      <div className="fly fly-lr-5" />
 
-      {/* Large blobs */}
-      <div className="blob blob-lg-1" />
-      <div className="blob blob-lg-2" />
-      <div className="blob blob-lg-3" />
-      <div className="blob blob-lg-4" />
+      {/* Flying balls - right to left */}
+      <div className="fly fly-rl-1" />
+      <div className="fly fly-rl-2" />
+      <div className="fly fly-rl-3" />
+      <div className="fly fly-rl-4" />
 
-      {/* Medium blobs */}
-      <div className="blob blob-md-1" />
-      <div className="blob blob-md-2" />
-      <div className="blob blob-md-3" />
-      <div className="blob blob-md-4" />
-      <div className="blob blob-md-5" />
+      {/* Flying balls - top to bottom */}
+      <div className="fly fly-tb-1" />
+      <div className="fly fly-tb-2" />
+      <div className="fly fly-tb-3" />
 
-      {/* Small balls */}
-      <div className="ball ball-1" />
-      <div className="ball ball-2" />
-      <div className="ball ball-3" />
-      <div className="ball ball-4" />
-      <div className="ball ball-5" />
-      <div className="ball ball-6" />
-      <div className="ball ball-7" />
-      <div className="ball ball-8" />
-      <div className="ball ball-9" />
-      <div className="ball ball-10" />
+      {/* Flying balls - bottom to top */}
+      <div className="fly fly-bt-1" />
+      <div className="fly fly-bt-2" />
 
-      {/* Sparkle dots */}
+      {/* Diagonal flythroughs */}
+      <div className="fly fly-diag-1" />
+      <div className="fly fly-diag-2" />
+      <div className="fly fly-diag-3" />
+      <div className="fly fly-diag-4" />
+
+      {/* Flying geometric shapes */}
+      <div className="fly fly-sq-1" />
+      <div className="fly fly-sq-2" />
+      <div className="fly fly-dm-1" />
+      <div className="fly fly-dm-2" />
+      <div className="fly fly-tri-1" />
+      <div className="fly fly-tri-2" />
+
+      {/* Sparkle dust */}
       <div className="dot dot-1" />
       <div className="dot dot-2" />
       <div className="dot dot-3" />
@@ -42,16 +48,6 @@ export default function PartyBackground({ children }: { children: React.ReactNod
       <div className="dot dot-8" />
       <div className="dot dot-9" />
       <div className="dot dot-10" />
-      <div className="dot dot-11" />
-      <div className="dot dot-12" />
-
-      {/* Geometric shapes */}
-      <div className="shape shape-sq-1" />
-      <div className="shape shape-sq-2" />
-      <div className="shape shape-dm-1" />
-      <div className="shape shape-dm-2" />
-      <div className="shape shape-tri-1" />
-      <div className="shape shape-tri-2" />
 
       {/* Content */}
       <div className="relative z-10">{children}</div>
