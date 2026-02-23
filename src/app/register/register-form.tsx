@@ -84,9 +84,9 @@ export default function RegisterForm() {
           type="tel"
           required
           value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          onChange={(e) => setPhone(e.target.value.replace(/[\s\-]/g, ''))}
           className="w-full rounded-xl border border-gray-300 px-4 py-3 text-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-          placeholder="050-1234567"
+          placeholder="0501234567"
           dir="ltr"
         />
       </div>

@@ -4,7 +4,7 @@ import { prisma } from '@/lib/db';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const phone = (body.phone ?? '').trim();
+    const phone = (body.phone ?? '').trim().replace(/[\s\-]/g, '');
     const costumeId = (body.costumeId ?? '').trim();
 
     if (!phone || !costumeId) {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 interface State {
   registrationOpen: boolean;
@@ -9,20 +9,40 @@ interface State {
   voteCount: number;
 }
 
+interface User {
+  id: string;
+  name: string;
+  phone: string;
+  hasVoted: boolean;
+  createdAt: string;
+}
+
 export default function AdminDashboardPage() {
   const [state, setState] = useState<State | null>(null);
   const [toggling, setToggling] = useState<string | null>(null);
+  const [users, setUsers] = useState<User[]>([]);
+  const [usersLoading, setUsersLoading] = useState(true);
 
-  useEffect(() => {
-    fetchState();
-  }, []);
-
-  async function fetchState() {
+  const fetchState = useCallback(async () => {
     const res = await fetch('/api/admin/state');
     if (res.ok) {
       setState(await res.json());
     }
-  }
+  }, []);
+
+  const fetchUsers = useCallback(async () => {
+    setUsersLoading(true);
+    const res = await fetch('/api/admin/users');
+    if (res.ok) {
+      setUsers(await res.json());
+    }
+    setUsersLoading(false);
+  }, []);
+
+  useEffect(() => {
+    fetchState();
+    fetchUsers();
+  }, [fetchState, fetchUsers]);
 
   async function toggleField(field: 'registrationOpen' | 'votingOpen') {
     if (!state) return;
@@ -78,6 +98,53 @@ export default function AdminDashboardPage() {
           <p className="text-sm text-gray-500">הצביעו</p>
           <p className="mt-1 text-3xl font-bold text-gray-800">{state.voteCount}</p>
         </div>
+      </div>
+
+      {/* Registered Users Table */}
+      <div className="rounded-xl bg-white shadow-sm border border-gray-200 overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200">
+          <h2 className="text-lg font-semibold text-gray-800">רשומים</h2>
+          <button
+            onClick={() => { fetchUsers(); fetchState(); }}
+            disabled={usersLoading}
+            className="rounded-lg bg-gray-100 px-4 py-2 text-sm text-gray-700 font-medium hover:bg-gray-200 disabled:opacity-50 transition-colors"
+          >
+            {usersLoading ? 'טוען...' : 'רענן'}
+          </button>
+        </div>
+
+        {users.length === 0 ? (
+          <p className="px-5 py-8 text-center text-gray-400">
+            {usersLoading ? 'טוען...' : 'אין נרשמים עדיין'}
+          </p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200 bg-gray-50">
+                  <th className="px-5 py-3 text-start text-sm font-semibold text-gray-600">#</th>
+                  <th className="px-5 py-3 text-start text-sm font-semibold text-gray-600">שם</th>
+                  <th className="px-5 py-3 text-start text-sm font-semibold text-gray-600">טלפון</th>
+                  <th className="px-5 py-3 text-start text-sm font-semibold text-gray-600">הצביע/ה</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map((user, index) => (
+                  <tr key={user.id} className="border-b border-gray-100 last:border-b-0">
+                    <td className="px-5 py-3 text-sm text-gray-500">{index + 1}</td>
+                    <td className="px-5 py-3 text-sm font-medium text-gray-800">{user.name}</td>
+                    <td className="px-5 py-3 text-sm text-gray-600" dir="ltr">{user.phone}</td>
+                    <td className="px-5 py-3 text-sm">
+                      <span className={user.hasVoted ? 'text-green-600' : 'text-gray-400'}>
+                        {user.hasVoted ? 'כן' : 'לא'}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -27,6 +27,13 @@ async function verifyTokenEdge(token: string, secret: string): Promise<boolean> 
 }
 
 export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  // Skip auth for login page and API login route
+  if (pathname === '/admin/login') {
+    return NextResponse.next();
+  }
+
   const secret = process.env.AUTH_SECRET;
   if (!secret) {
     return NextResponse.redirect(new URL('/admin/login', request.url));
@@ -46,5 +53,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/((?!login).*)'],
+  matcher: ['/admin/:path*'],
 };

@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const name = (body.name ?? '').trim();
-    const phone = (body.phone ?? '').trim();
+    const phone = (body.phone ?? '').trim().replace(/[\s\-]/g, '');
 
     if (!name || !phone) {
       return NextResponse.json(
