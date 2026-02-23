@@ -36,7 +36,6 @@ export default function VoteFlow({ costumes }: { costumes: Costume[] }) {
   const [selected, setSelected] = useState<Costume | null>(null);
   const [castError, setCastError] = useState("");
 
-  // Start preloading images immediately on mount
   const startPreload = useCallback(() => {
     preloadImages(costumes).then(() => setImagesReady(true));
   }, [costumes]);
@@ -101,47 +100,45 @@ export default function VoteFlow({ costumes }: { costumes: Costume[] }) {
   // Step A: Phone verification
   if (step === "phone") {
     return (
-      <div>
-        <form onSubmit={handleVerify} className="flex flex-col gap-4">
-          <div>
-            <label
-              htmlFor="phone"
-              className="mb-1 block text-sm font-medium text-gray-700"
-            >
-              מספר טלפון
-            </label>
-            <input
-              id="phone"
-              type="tel"
-              required
-              value={phone}
-              onChange={(e) => setPhone(e.target.value.replace(/[\s\-]/g, ''))}
-              className="w-full rounded-xl border border-gray-300 px-4 py-3 text-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-              placeholder="0501234567"
-              dir="ltr"
-            />
-          </div>
-
-          {verifyError === "NOT_FOUND" && (
-            <p className="text-center text-sm text-red-600">
-              מספר לא רשום. גש/י לעמדת הכניסה
-            </p>
-          )}
-          {verifyError === "ALREADY_VOTED" && (
-            <p className="text-center text-sm text-amber-600">
-              כבר הצבעת, תודה!
-            </p>
-          )}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="mt-2 w-full rounded-xl bg-primary py-4 text-lg font-semibold text-white transition-colors hover:bg-primary-hover disabled:opacity-50"
+      <form onSubmit={handleVerify} className="flex flex-col gap-4 rounded-2xl bg-white/10 backdrop-blur-sm p-6">
+        <div>
+          <label
+            htmlFor="phone"
+            className="mb-1 block text-sm font-medium text-white/80"
           >
-            {loading ? "בודק..." : "המשך"}
-          </button>
-        </form>
-      </div>
+            מספר טלפון
+          </label>
+          <input
+            id="phone"
+            type="tel"
+            required
+            value={phone}
+            onChange={(e) => setPhone(e.target.value.replace(/[\s\-]/g, ''))}
+            className="w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-lg text-white placeholder-white/40 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/20"
+            placeholder="0501234567"
+            dir="ltr"
+          />
+        </div>
+
+        {verifyError === "NOT_FOUND" && (
+          <p className="text-center text-sm text-red-400">
+            מספר לא רשום. גש/י לעמדת הכניסה
+          </p>
+        )}
+        {verifyError === "ALREADY_VOTED" && (
+          <p className="text-center text-sm text-amber-400">
+            כבר הצבעת, תודה!
+          </p>
+        )}
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="mt-2 w-full rounded-xl bg-white/90 py-4 text-lg font-semibold text-primary transition-colors hover:bg-white disabled:opacity-50"
+        >
+          {loading ? "בודק..." : "המשך"}
+        </button>
+      </form>
     );
   }
 
@@ -150,15 +147,15 @@ export default function VoteFlow({ costumes }: { costumes: Costume[] }) {
     if (!imagesReady) {
       return (
         <div className="flex flex-col items-center justify-center py-12 gap-4">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-primary" />
-          <p className="text-lg text-gray-500">טוען תחפושות...</p>
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-white/20 border-t-white" />
+          <p className="text-lg text-white/60">טוען תחפושות...</p>
         </div>
       );
     }
 
     return (
       <div className="flex flex-col gap-4">
-        <p className="text-center text-lg text-gray-600">בחרו תחפושת</p>
+        <p className="text-center text-lg text-white/70">בחרו תחפושת</p>
         <div className="grid grid-cols-1 gap-3">
           {costumes.map((costume) => (
             <button
@@ -167,7 +164,7 @@ export default function VoteFlow({ costumes }: { costumes: Costume[] }) {
                 setSelected(costume);
                 setStep("confirm");
               }}
-              className="flex items-center gap-4 rounded-xl border-2 border-gray-200 bg-white px-5 py-4 text-xl font-medium text-gray-900 transition-colors hover:border-primary hover:bg-primary/5 active:bg-primary/10 text-start"
+              className="flex items-center gap-4 rounded-xl border-2 border-white/20 bg-white/10 backdrop-blur-sm px-5 py-4 text-xl font-medium text-white transition-all hover:border-white/40 hover:bg-white/20 active:bg-white/25 text-start"
             >
               {costume.imageUrl && (
                 <img
@@ -187,20 +184,27 @@ export default function VoteFlow({ costumes }: { costumes: Costume[] }) {
   // Step B2: Confirm selection
   if (step === "confirm") {
     return (
-      <div className="flex flex-col items-center gap-6 text-center">
-        <p className="text-xl text-gray-700">
-          להצביע ל<span className="font-bold text-primary">{selected?.title}</span>?
+      <div className="flex flex-col items-center gap-6 text-center rounded-2xl bg-white/10 backdrop-blur-sm p-6">
+        {selected?.imageUrl && (
+          <img
+            src={selected.imageUrl}
+            alt={selected.title}
+            className="h-32 w-32 rounded-xl object-cover"
+          />
+        )}
+        <p className="text-xl text-white">
+          להצביע ל<span className="font-bold text-amber-300">{selected?.title}</span>?
         </p>
 
         {castError && (
-          <p className="text-sm text-red-600">{castError}</p>
+          <p className="text-sm text-red-400">{castError}</p>
         )}
 
         <div className="flex w-full flex-col gap-3">
           <button
             onClick={handleCastVote}
             disabled={loading}
-            className="w-full rounded-xl bg-primary py-4 text-lg font-semibold text-white transition-colors hover:bg-primary-hover disabled:opacity-50"
+            className="w-full rounded-xl bg-white/90 py-4 text-lg font-semibold text-primary transition-colors hover:bg-white disabled:opacity-50"
           >
             {loading ? "שולח..." : "אישור הצבעה"}
           </button>
@@ -210,7 +214,7 @@ export default function VoteFlow({ costumes }: { costumes: Costume[] }) {
               setCastError("");
               setStep("choose");
             }}
-            className="w-full rounded-xl border-2 border-gray-300 py-4 text-lg font-medium text-gray-600 transition-colors hover:border-gray-400"
+            className="w-full rounded-xl border-2 border-white/30 py-4 text-lg font-medium text-white/80 transition-colors hover:border-white/50 hover:bg-white/5"
           >
             חזרה
           </button>
@@ -221,9 +225,9 @@ export default function VoteFlow({ costumes }: { costumes: Costume[] }) {
 
   // Step C: Done
   return (
-    <div className="text-center">
-      <p className="text-2xl font-semibold text-green-600">ההצבעה נקלטה, תודה!</p>
-      <p className="mt-2 text-gray-500">תודה על ההשתתפות</p>
+    <div className="text-center rounded-2xl bg-white/10 backdrop-blur-sm p-8">
+      <p className="text-2xl font-semibold text-green-400">ההצבעה נקלטה, תודה!</p>
+      <p className="mt-2 text-white/60">תודה על ההשתתפות</p>
     </div>
   );
 }
