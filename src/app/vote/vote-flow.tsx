@@ -132,9 +132,16 @@ export default function VoteFlow({ costumes }: { costumes: Costume[] }) {
                 setSelected(costume);
                 setStep("confirm");
               }}
-              className="rounded-xl border-2 border-gray-200 bg-white px-6 py-4 text-xl font-medium text-gray-900 transition-colors hover:border-primary hover:bg-primary/5 active:bg-primary/10"
+              className="flex items-center gap-4 rounded-xl border-2 border-gray-200 bg-white px-5 py-4 text-xl font-medium text-gray-900 transition-colors hover:border-primary hover:bg-primary/5 active:bg-primary/10 text-start"
             >
-              {costume.title}
+              {costume.imageUrl && (
+                <img
+                  src={costume.imageUrl}
+                  alt={costume.title}
+                  className="h-20 w-20 rounded-lg object-cover flex-shrink-0"
+                />
+              )}
+              <span>{costume.title}</span>
             </button>
           ))}
         </div>
