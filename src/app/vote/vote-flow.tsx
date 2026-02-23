@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 type Costume = {
   id: string;
@@ -11,13 +11,39 @@ type Costume = {
 type Step = "phone" | "choose" | "confirm" | "done";
 type VerifyError = "NOT_FOUND" | "ALREADY_VOTED" | null;
 
+function preloadImages(costumes: Costume[]): Promise<void> {
+  const urls = costumes.map((c) => c.imageUrl).filter(Boolean) as string[];
+  if (urls.length === 0) return Promise.resolve();
+  return Promise.all(
+    urls.map(
+      (url) =>
+        new Promise<void>((resolve) => {
+          const img = new Image();
+          img.onload = () => resolve();
+          img.onerror = () => resolve();
+          img.src = url;
+        })
+    )
+  ).then(() => {});
+}
+
 export default function VoteFlow({ costumes }: { costumes: Costume[] }) {
   const [step, setStep] = useState<Step>("phone");
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
+  const [imagesReady, setImagesReady] = useState(false);
   const [verifyError, setVerifyError] = useState<VerifyError>(null);
   const [selected, setSelected] = useState<Costume | null>(null);
   const [castError, setCastError] = useState("");
+
+  // Start preloading images immediately on mount
+  const startPreload = useCallback(() => {
+    preloadImages(costumes).then(() => setImagesReady(true));
+  }, [costumes]);
+
+  useEffect(() => {
+    startPreload();
+  }, [startPreload]);
 
   async function handleVerify(e: React.FormEvent) {
     e.preventDefault();
@@ -121,6 +147,15 @@ export default function VoteFlow({ costumes }: { costumes: Costume[] }) {
 
   // Step B: Choose costume
   if (step === "choose") {
+    if (!imagesReady) {
+      return (
+        <div className="flex flex-col items-center justify-center py-12 gap-4">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-primary" />
+          <p className="text-lg text-gray-500">טוען תחפושות...</p>
+        </div>
+      );
+    }
+
     return (
       <div className="flex flex-col gap-4">
         <p className="text-center text-lg text-gray-600">בחרו תחפושת</p>
